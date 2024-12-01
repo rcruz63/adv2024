@@ -17,14 +17,15 @@ def dia1_1(data, verbose: bool = False):
         for line in file:
             # Decodificar la linea
             left, right = line.split()
-            lefts.append(left)
-            rights.append(right)
+            lefts.append(int(left))
+            rights.append(int(right))
 
     lefts.sort()
     rights.sort()
 
-    for left, index in enumerate(lefts):
-        result += (left - rights[index])
+    for index, left in enumerate(lefts):
+        # print(index, left, rights[index])
+        result += abs(left - rights[index])
 
     # Imprimir el resultado
 
@@ -45,11 +46,20 @@ def dia1_2(data, verbose: bool = False):
     with open(data_path, "r", encoding="utf-8") as file:
         # Leer cada linea del archivo
         result = 0
-        num_line = 1
-        jugadas = []
+        lefts = []
+        rights = []
         for line in file:
             # Decodificar la linea
-            pass
+            left, right = line.split()
+            lefts.append(int(left))
+            rights.append(int(right))
+
+        for _, left in enumerate(lefts):
+            # contar cuantas veces aparece left en el lista rights
+            count = rights.count(left)
+            # print(left, count)
+            result += left * count
+
 
     # Imprimir el resultado
 
@@ -58,5 +68,7 @@ def dia1_2(data, verbose: bool = False):
     return result
 
 if __name__ == "__main__":
-    assert dia1_1("test1_1.txt", verbose=False) == 11, "Error se esperaba 11."
-    # dia1_2("test1_2.txt", verbose=True)
+    # assert dia1_1("test1_1.txt", verbose=False) == 11, "Error se esperaba 11."
+    # dia1_1("data1_1.txt", verbose=False)
+    # assert dia1_2("test1_1.txt", verbose=False) == 31, "Error se esperaba 9."
+    dia1_2("data1_1.txt", verbose=True)
