@@ -12,13 +12,25 @@ def dia1_1(data, verbose: bool = False):
     with open(data_path, "r", encoding="utf-8") as file:
         # Leer cada linea del archivo
         result = 0
+        lefts = []
+        rights = []
         for line in file:
             # Decodificar la linea
-            pass
-            
+            left, right = line.split()
+            lefts.append(left)
+            rights.append(right)
+
+    lefts.sort()
+    rights.sort()
+
+    for left, index in enumerate(lefts):
+        result += (left - rights[index])
+
     # Imprimir el resultado
 
     print(f'resultado dia 1 - 1 = "{result}"')
+
+    return result
 
 
 def dia1_2(data, verbose: bool = False):
@@ -43,6 +55,8 @@ def dia1_2(data, verbose: bool = False):
 
     print(f'resultado dia 1 - 2 = "{result}"')
 
+    return result
+
 if __name__ == "__main__":
-    dia1_1("test1_1.txt", verbose=False)
-    dia1_2("test1_2.txt", verbose=True)
+    assert dia1_1("test1_1.txt", verbose=False) == 11, "Error se esperaba 11."
+    # dia1_2("test1_2.txt", verbose=True)
