@@ -40,3 +40,38 @@ En la lista de ejemplo anterior, los pares y las diferencias serían los siguien
 Para encontrar la distancia total entre la lista izquierda y la lista derecha, suma las diferencias entre todos los pares que encontraste. En el ejemplo anterior, esto es 2 + 1 + 0 + 1 + 2 + 5, una distancia total de 11.
 
 Tus listas reales (izquierda y derecha) contienen muchos IDs de ubicación. ¿Cuál es la distancia total entre tus listas?
+
+## Parte Dos
+Tu análisis solo confirmó lo que todos temían: las dos listas de IDs de ubicación son, efectivamente, muy diferentes.
+
+¿O no lo son?
+
+Los historiadores no logran ponerse de acuerdo sobre cuál de los grupos cometió los errores o cómo interpretar la mayor parte de la escritura del Historiador Jefe. Sin embargo, en medio del caos, te das cuenta de un detalle interesante: ¡muchos IDs de ubicación aparecen en ambas listas! Tal vez los demás números no sean realmente IDs de ubicación, sino simples errores de interpretación de su escritura.
+
+Esta vez, tendrás que determinar con exactitud cuántas veces aparece cada número de la lista izquierda en la lista derecha. Calcula un puntaje total de similitud sumando cada número de la lista izquierda multiplicado por la cantidad de veces que ese número aparece en la lista derecha.
+
+Aquí tienes nuevamente las mismas listas de ejemplo:
+
+```text
+3   4
+4   3
+2   5
+1   3
+3   9
+3   3
+```
+
+Para estas listas de ejemplo, el cálculo del puntaje de similitud sería el siguiente:
+
+- El primer número en la lista izquierda es 3. Aparece en la lista derecha tres veces, por lo que la puntuación de similitud aumenta en 3 * 3 = 9.
+- El segundo número en la lista izquierda es 4. Aparece en la lista derecha una vez, por lo que la puntuación de similitud aumenta en 4 * 1 = 4.
+- El tercer número en la lista izquierda es 2. No aparece en la lista derecha, por lo que la puntuación no aumenta (2 * 0 = 0).
+- El cuarto número en la lista izquierda es 1. Tampoco aparece en la lista derecha.
+- El quinto número en la lista izquierda es 3. Aparece en la lista derecha tres veces, por lo que la puntuación de similitud aumenta en 3 * 3 = 9.
+- El último número en la lista izquierda es nuevamente 3. También aparece en la lista derecha tres veces, por lo que la puntuación de similitud vuelve a aumentar en 3 * 3 = 9.
+
+Entonces, para estas listas de ejemplo, la puntuación total de similitud al final del proceso es 31 (9 + 4 + 0 + 0 + 9 + 9).
+
+Una vez más, considera tus listas izquierda y derecha. ¿Cuál es su puntuación de similitud? 
+
+Tu tarea: Considera tus listas izquierda y derecha reales. ¿Cuál es su puntaje de similitud?
