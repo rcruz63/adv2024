@@ -19,6 +19,7 @@ def diaX_1(data, verbose: bool = False):
     # Imprimir el resultado
 
     print(f'resultado dia X - 1 = "{result}"')
+    return result
 
 
 def diaX_2(data, verbose: bool = False):
@@ -42,7 +43,10 @@ def diaX_2(data, verbose: bool = False):
     # Imprimir el resultado
 
     print(f'resultado dia X - 2 = "{result}"')
+    return result
 
 if __name__ == "__main__":
-    diaX_1("testX_1.txt", verbose=False)
-    diaX_2("testX_2.txt", verbose=True)
+    assert diaX_1("testX_1.txt", verbose=False) == 11, "Error se esperaba 11."
+    # diaX_1("dataX_1.txt", verbose=False)
+    # assert diaX_2("testX_1.txt", verbose=False) == 31, "Error se esperaba 9."
+    # diaX_2("dataX_1.txt", verbose=True)
