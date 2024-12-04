@@ -1,5 +1,9 @@
 import os
 
+def vprint(verbose, *args):
+    if verbose:
+        print(*args)
+
 def diaX_1(data, verbose: bool = False):
     """ Función principal del día X-1. """
 
