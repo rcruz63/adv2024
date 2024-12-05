@@ -46,8 +46,13 @@ done
 cd ../..
 
 # Modificar el fichero README.md
-sed -i "/## Español/a\\\n${new_day_number}. [Dia ${new_day_number}](./README_DIA${new_day_number}_ES.md)" README.md
-sed -i "/## English/a\\\n${new_day_number}. [Day ${new_day_number}](./README_DIA${new_day_number}_EN.md)" README.md
+# sed -i "/## Español/a\\\n${new_day_number}. [Dia ${new_day_number}](./README_DIA${new_day_number}_ES.md)" README.md
+# sed -i "/## English/a\\\n${new_day_number}. [Day ${new_day_number}](./README_DIA${new_day_number}_EN.md)" README.md
+
+# Modificar el fichero README.md - Tengo dudas con este nuevo codigo
+sed -i "/## Español/!b;n;:a;n;/^[0-9]\+. \[Dia [0-9]\+\](.\/README_DIA[0-9]\+_ES.md)/ba;i\\${new_day_number}. [Dia ${new_day_number}](./README_DIA${new_day_number}_ES.md)" README.md
+sed -i "/## English/!b;n;:a;n;/^[0-9]\+. \[Day [0-9]\+\](.\/README_DIA[0-9]\+_EN.md)/ba;i\\${new_day_number}. [Day ${new_day_number}](./README_DIA${new_day_number}_EN.md)" README.md
+
 
 # Añadir y commitear los cambios
 git add .
