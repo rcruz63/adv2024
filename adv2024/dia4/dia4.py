@@ -98,6 +98,37 @@ def dia4_1(data, verbose: bool = False):
     return result
 
 
+# función que reciba una lista de listas y que para cada 'A' (x, y) en la lista
+# compruebe si (x-1, y-1) y (x+1, y+1) forman la palabra MAS o SAM
+# y si (x-1, y+1) y (x+1, y-1) forman la palabra MAS o SAM
+# si las dos diagonales cumplen la condición sumamos uno al contador, debe devolver el contador
+# debe ignorar las 'A' de los bordes ya que no pueden cumplir la condición
+def buscar_diagonales(tablero):
+    """
+    Busca las letras 'A' en las diagonales de un tablero y comprueba si forman la palabra "MAS" o "SAM".
+
+    Args:
+        tablero (list[str]): Tablero de letras.
+
+    Returns:
+        int: Cantidad de veces que se encontró la palabra "MAS" o "SAM" en las diagonales.
+    """
+    filas, columnas = len(tablero), len(tablero[0])
+    contador = 0
+    validos = ["MAS", "SAM"]
+
+    for i in range(1, filas - 1):
+        for j in range(1, columnas - 1):
+            if tablero[i][j] == "A":
+                izquierda = tablero[i - 1][j - 1] + 'A' + tablero[i + 1][j + 1]
+                derecha = tablero[i - 1][j + 1] + 'A' + tablero[i + 1][j - 1]
+                if izquierda in validos and derecha in validos:
+                    contador += 1
+
+    return contador
+
+
+
 def dia4_2(data, verbose: bool = False):
     """ Función principal del día 4-2. """
 
@@ -108,14 +139,9 @@ def dia4_2(data, verbose: bool = False):
 
     # Leer el archivo
     with open(data_path, "r", encoding="utf-8") as file:
-        # Leer cada linea del archivo
-        result = 0
-        num_line = 1
-        jugadas = []
-        for line in file:
-            # Decodificar la linea
-            pass
+        sopa = [list(line.strip()) for line in file]
 
+    result = buscar_diagonales(sopa)
     # Imprimir el resultado
 
     print(f'resultado dia 4 - 2 = "{result}"')
@@ -123,6 +149,6 @@ def dia4_2(data, verbose: bool = False):
 
 if __name__ == "__main__":
     # assert dia4_1("test4_1.txt", verbose=True) == 18, "Error se esperaba 18."
-    dia4_1("data4_1.txt", verbose=False)
-    # assert dia4_2("test4_1.txt", verbose=False) == 31, "Error se esperaba 9."
-    # dia4_2("data4_1.txt", verbose=True)
+    # dia4_1("data4_1.txt", verbose=False)
+    # assert dia4_2("test4_1.txt", verbose=True) == 9, "Error se esperaba 9."
+    dia4_2("data4_1.txt", verbose=False)
