@@ -1,4 +1,5 @@
 import os
+from functools import cmp_to_key
 
 def vprint(verbose, *args):
     if verbose:
@@ -86,6 +87,26 @@ def dia5_1(data, verbose: bool = False):
     print(f'resultado dia 5 - 1 = "{result}"')
     return result
 
+def va_antes(num1, num2, reglas, verbose: bool = False) -> bool:
+    """ Verificar si num1 va antes que num2. segun las reglas"""
+    
+    return [num1, num2] in reglas
+
+def order_update(update, reglas, verbose: bool = False) -> list:
+    """ Ordenar update utilizando la función va_antes. """
+
+    def cmp_func(num1, num2):
+        """
+        Función de comparación personalizada basada en va_antes.
+        """
+        if va_antes(num1, num2, reglas):
+            return -1  # num1 debe ir antes que num2
+        elif va_antes(num2, num1, reglas):
+            return 1  # num2 debe ir antes que num1
+        return 0  # num1 y num2 son equivalentes según las reglas
+
+    # Usa sorted con functools.cmp_to_key para aplicar la comparación personalizada
+    return sorted(update, key=cmp_to_key(cmp_func))
 
 def dia5_2(data, verbose: bool = False):
     """ Función principal del día 5-2. """
@@ -95,23 +116,31 @@ def dia5_2(data, verbose: bool = False):
     if verbose:
         print(f'Opening file {data_path}')
 
-    # Leer el archivo
-    with open(data_path, "r", encoding="utf-8") as file:
-        # Leer cada linea del archivo
-        result = 0
-        num_line = 1
-        jugadas = []
-        for line in file:
-            # Decodificar la linea
-            pass
+    reglas, updates = load_data(data_path, verbose)
 
+    result = 0
+    updates_invalid = []
+    for update in updates:
+        if not check_update(update, reglas, verbose):
+            updates_invalid.append(update)
+    vprint(verbose, f'updates_invalid = {updates_invalid}')
+
+    new_updates = []
+    for update in updates_invalid:
+        new_updates.append(order_update(update, reglas, verbose))
+
+    vprint(verbose, f'new_updates = {new_updates}')
+
+    for update in new_updates:
+        result += update[len(update) // 2]
+            
     # Imprimir el resultado
 
-    print(f'resultado dia 5 - 2 = "{result}"')
+    print(f'resultado dia 5 - 1 = "{result}"')
     return result
 
 if __name__ == "__main__":
     # assert dia5_1("test5_1.txt", verbose=True) == 143, "Error se esperaba 143."
-    dia5_1("data5_1.txt", verbose=False)
-    # assert dia5_2("test5_1.txt", verbose=False) == 31, "Error se esperaba 9."
-    # dia5_2("data5_1.txt", verbose=True)
+    # dia5_1("data5_1.txt", verbose=False)
+    # assert dia5_2("test5_1.txt", verbose=True) == 123, "Error se esperaba 9."
+    dia5_2("data5_1.txt", verbose=False)
