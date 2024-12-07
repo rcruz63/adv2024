@@ -53,6 +53,26 @@ def mover_guardia(x, y, mapa, verbose: bool = False) -> tuple[int, int]:
         mapa[nuevo_y][nuevo_x] = nueva_orientacion
         return nuevo_x, nuevo_y
 
+def es_bucle(x0, y0, mapa, verbose: bool = False) -> bool:
+    """ Verificar si el guardia está en un bucle. """
+    
+    x, y = x0, y0
+    # Guardamos tuplas de (x, y, orientacion)
+    estados_visitados = set()
+    
+    while guardia_dentro_mapa(x, y, mapa):
+        orientacion = mapa[y][x]
+        estado = (x, y, orientacion)
+        
+        if estado in estados_visitados:
+            return True
+            
+        estados_visitados.add(estado)
+        x, y = mover_guardia(x, y, mapa)
+        vprint(verbose, f'x = {x}, y = {y}')
+    
+    return False
+
 def dia6_1(data, verbose: bool = False):
     """ Función principal del día 6-1. """
 
@@ -111,42 +131,35 @@ def dia6_2(data, verbose: bool = False):
     num_filas = len(mapa)
     num_columnas = len(mapa[0])
     print(f"MAPA:filas = {num_filas}, columnas = {num_columnas}")
-    # Guardar el mapa original
-    mapa_original = [fila[:] for fila in mapa]
-    result = 0
-    x0, y0 = encontrar_guardia(mapa, verbose)
-
-    def es_bucle(x0, y0, mapa) -> bool:
-        """ Verificar si el guardia está en un bucle. """
     
-        vprint(verbose, f'x0 = {x0}, y0 = {y0}')
-        x, y = x0, y0
-        # Guardamos tuplas de (x, y, orientacion)
-        posiciones = []
-        while guardia_dentro_mapa(x, y, mapa):
-            orientacion = mapa[y][x]
-            estado = (x, y, orientacion)
-            if estado in posiciones:
-                return True
-            posiciones.append(estado)
-            x, y = mover_guardia(x, y, mapa)
-        return False
-
-    # Añadir obstáculos en las posiciones posibles
-    for y, fila in enumerate(mapa):
-        print(f"fila = {y}/{num_filas}")
-        for x, char in enumerate(fila):
-            print(f"columna = {x}/{num_columnas}")
-            # Restablecer el mapa original
-            mapa = [fila[:] for fila in mapa_original]
-            if char == '.':
-                mapa[y][x] = '#'
-                if es_bucle(x0, y0, mapa):
-                    result += 1
-                mapa[y][x] = '.'
-
+    # Primero obtenemos el camino original del guardia
+    mapa_original = [fila[:] for fila in mapa]
+    x0, y0 = encontrar_guardia(mapa, verbose)
+    camino_original = set()
+    x, y = x0, y0
+    
+    while guardia_dentro_mapa(x, y, mapa):
+        camino_original.add((x, y))
+        x, y = mover_guardia(x, y, mapa)
+    
+    # Solo probamos posiciones relevantes (en el camino o adyacentes)
+    posiciones_a_probar = set()
+    for x, y in camino_original:
+        for dx, dy in [(0,1), (1,0), (0,-1), (-1,0)]:
+            nx, ny = x + dx, y + dy
+            if (guardia_dentro_mapa(nx, ny, mapa_original) and 
+                mapa_original[ny][nx] == '.' and 
+                (nx, ny) != (x0, y0)):
+                posiciones_a_probar.add((nx, ny))
+    
+    result = 0
+    for x, y in posiciones_a_probar:
+        mapa = [fila[:] for fila in mapa_original]
+        mapa[y][x] = '#'
+        if es_bucle(x0, y0, mapa, verbose):
+            result += 1
             
-    print(f'resultado dia 6 - 1 = "{result}"')
+    print(f'resultado dia 6 - 2 = "{result}"')
     return result
 
 if __name__ == "__main__":
