@@ -1,4 +1,5 @@
 import os
+import time
 
 def vprint(verbose, *args):
     if verbose:
@@ -50,7 +51,14 @@ def diaX_2(data, verbose: bool = False):
     return result
 
 if __name__ == "__main__":
-    assert diaX_1("testX_1.txt", verbose=False) == 11, "Error se esperaba 11."
+    start_time = time.time()
+    assert diaX_1("testX_1.txt", verbose=True) == 11, "Error se esperaba 11."
     # diaX_1("dataX_1.txt", verbose=False)
-    # assert diaX_2("testX_1.txt", verbose=False) == 31, "Error se esperaba 9."
-    # diaX_2("dataX_1.txt", verbose=True)
+    end_time = time.time()
+    print(f"Tiempo de ejecución parte 1: {end_time - start_time:.4f} segundos")
+    start_time = time.time()
+    # assert diaX_2("testX_1.txt", verbose=True) == 31, "Error se esperaba 9."
+    # diaX_2("dataX_1.txt", verbose=False)
+    end_time = time.time()
+    print(f"Tiempo de ejecución parte 2: {end_time - start_time:.4f} segundos")
+
