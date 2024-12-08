@@ -48,4 +48,4 @@ Ahora, aparte de las tres ecuaciones que podrían hacerse verdaderas utilizando 
 Sumando todos los valores de prueba (los tres que se podían hacer antes de usar solo + y * más los tres nuevos que ahora se pueden hacer insertando también ||) se obtiene el nuevo resultado total de calibración de `11387`.
 
 Usando tu nueva comprensión de los escondites de los elefantes, determina qué ecuaciones podrían ser verdaderas. ¿Cuál es su resultado total de calibración?
-
+`275791737999003`

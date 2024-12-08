@@ -12,6 +12,7 @@ Python Repo For the code of the game Advent of Code 2024
 5. [Dia 5](./README_DIA5_ES.md)
 6. [Dia 6](./README_DIA6_ES.md)
 7. [Dia 7](./README_DIA7_ES.md)
+8. [Dia 8](./README_DIA8_ES.md)
 
 ## English
 
