@@ -129,4 +129,4 @@ El ejemplo original ahora tiene 34 antinodos, incluyendo los antinodos que apare
 ...#......##
 ```
 
-Calcula el impacto de la señal usando este modelo actualizado. ¿Cuántas ubicaciones únicas dentro de los límites del mapa contienen un antinodo?
+Calcula el impacto de la señal usando este modelo actualizado. ¿Cuántas ubicaciones únicas dentro de los límites del mapa contienen un antinodo? `1277`
