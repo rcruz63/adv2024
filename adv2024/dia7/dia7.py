@@ -130,27 +130,29 @@ def dia7_2(data, verbose: bool = False):
 
     current_dir = os.path.dirname(os.path.realpath(__file__))
     data_path = os.path.join(current_dir, data)
-    if verbose:
-        print(f'Opening file {data_path}')
-
-    # Leer el archivo
+    
+    result = 0
     with open(data_path, "r", encoding="utf-8") as file:
-        # Leer cada linea del archivo
-        result = 0
+        equations = []
+        # Preprocesar todas las ecuaciones
         for line in file:
-            # Separar el número objetivo y los números de la ecuación
             parts = line.strip().split(':')
             target = int(parts[0])
             numbers = list(map(int, parts[1].split()))
-            # Crear la ecuación completa con el objetivo como primer elemento
-            equation = [target] + numbers
-            vprint(verbose, f'equation: {equation}')
-            if solve_equation(equation, verbose):
-                result += target
-            elif solve_equation_2(equation, verbose):
-                result += target
-
-    # Imprimir el resultado
+            equations.append([target] + numbers)
+        
+        # Procesar ecuaciones en paralelo
+        from concurrent.futures import ProcessPoolExecutor
+        with ProcessPoolExecutor() as executor:
+            def process_equation(eq):
+                if solve_equation(eq, verbose):
+                    return eq[0]
+                elif solve_equation_2(eq, verbose):
+                    return eq[0]
+                return 0
+                
+            results = executor.map(process_equation, equations)
+            result = sum(results)
 
     print(f'resultado dia 7 - 2 = "{result}"')
     return result
