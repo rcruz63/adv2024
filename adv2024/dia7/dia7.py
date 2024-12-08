@@ -47,37 +47,51 @@ def solve_equation_2(equation: list[int], verbose: bool = False) -> bool:
     """ Resuelve una ecuación de la forma [resultado, a, b, c, d, ...] 
         devuelve True si se puede encontrar una combinación de operaciones
         de suma y multiplicación que produzca el resultado que será el 
-        primer elemento de la lista. 
-        Se ha añadido el operador de concatenación ||.
-        Los operadores se resuelven de izquierda a derecha sin tener en cuenta 
-        la precedencia habitual de las operaciones."""
+        primer elemento de la lista."""
     
     target = equation[0]
-    numbers = equation[1:]  # Excluimos el primer número que es el resultado buscado
+    numbers = equation[1:]
     
     # Crear todas las permutaciones de los operadores
     operators = ['+', '*', '||']
     permutations = list(itertools.product(operators, repeat=len(numbers) - 1))
     
     for permutation in permutations:
-        # Empezamos con el primer número
         result = numbers[0]
-        expression = [str(numbers[0])]
+        
+        # Optimización: Si el primer número ya es mayor que el objetivo 
+        # y solo tenemos operaciones que incrementan, podemos saltar
+        if result > target and '||' not in permutation:
+            continue
+            
+        # Para debug, construimos la expresión solo si verbose es True
+        if verbose:
+            expression = [str(numbers[0])]
         
         # Aplicamos cada operador de izquierda a derecha
         for i, op in enumerate(permutation):
-            expression.append(op)
-            expression.append(str(numbers[i + 1]))
+            if verbose:
+                expression.append(op)
+                expression.append(str(numbers[i + 1]))
+                
             if op == '||':
-                result = int(str(result) + str(numbers[i + 1]))
+                # Optimización: Precalcular el número de dígitos para evitar conversiones innecesarias
+                result = (result * (10 ** len(str(numbers[i + 1])))) + numbers[i + 1]
             elif op == '+':
                 result += numbers[i + 1]
             else:  # op == '*'
                 result *= numbers[i + 1]
                 
-        vprint(verbose, f"result: {result} = {''.join(expression)}")
+            # Optimización: Salir temprano si ya excedemos el objetivo
+            if result > target and '||' not in permutation[i+1:]:
+                break
+        
+        if verbose:
+            vprint(verbose, f"result: {result} = {''.join(expression)}")
+            
         if result == target:
-            vprint(verbose, f'equation found: {target} = {" ".join(expression)}')
+            if verbose:
+                vprint(verbose, f'equation found: {target} = {" ".join(expression)}')
             return True
             
     return False
@@ -131,7 +145,9 @@ def dia7_2(data, verbose: bool = False):
             # Crear la ecuación completa con el objetivo como primer elemento
             equation = [target] + numbers
             vprint(verbose, f'equation: {equation}')
-            if solve_equation_2(equation, verbose):
+            if solve_equation(equation, verbose):
+                result += target
+            elif solve_equation_2(equation, verbose):
                 result += target
 
     # Imprimir el resultado
