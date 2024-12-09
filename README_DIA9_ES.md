@@ -65,3 +65,5 @@ El primer ejemplo de arriba ahora procede de manera diferente:
 El proceso de actualización de la suma de comprobación del sistema de archivos es el mismo; ahora, la suma de comprobación de este ejemplo sería 2858.
 
 Empieza de nuevo, ahora compactando el disco duro del anfípodo usando este nuevo método. ¿Cuál es la suma de comprobación del sistema de archivos resultante?
+
+`6377400869326`

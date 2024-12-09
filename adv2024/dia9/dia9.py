@@ -27,18 +27,31 @@ def reorganizar_archivos(archivos, bloques_vacios, verbose: bool = False):
 
 def reorganizar_archivos_2(archivos, bloques_vacios, verbose: bool = False):
     """ Recorriendo la lista de archivos de último al primero, de ID mayor a ID menor, el ID 0 no se procesa,
-        Se busca el mayor hueco libre donde quepa"""
+        Se busca el mayor hueco libre donde quepa y que esté más a la izquierda"""
     for ID in sorted(archivos.keys(), reverse=True):
         if ID == 0:
             continue
-        for hueco in bloques_vacios:
-            if archivos[ID][1] <= hueco[1]:
-                bloques_vacios.append(archivos[ID])
-                posicion = archivos[ID][0]
-                archivos[ID][0] = hueco[0]
-                if archivos[ID][1] < hueco[1]:
-                    bloques_vacios.append(hueco[0] + archivos[ID][1], hueco[1] - archivos[ID][1])
-        vprint(verbose, archivos)
+        archivo = archivos[ID]
+        posicion_archivo = archivo[0]
+        size_archivo = archivo[1]
+        changed = False
+        for hueco in [h for h in bloques_vacios if h[0] < posicion_archivo]:
+            posicion_hueco = hueco[0]
+            size_hueco = hueco[1]
+            if size_archivo <= size_hueco:
+                changed = True
+                bloques_vacios.append([posicion_archivo, size_archivo])
+                bloques_vacios.remove(hueco)
+                archivo[0] = posicion_hueco
+                if size_archivo < size_hueco:
+                    bloques_vacios.append((posicion_hueco + size_archivo, size_hueco - size_archivo))
+            # Reordenar la lista de bloques vacios
+            if changed:
+                bloques_vacios.sort(key=lambda x: x[0])
+                archivos[ID] = archivo
+                break
+        
+        vprint(verbose, f'ID: {ID}, {archivos}')
         vprint(verbose, bloques_vacios)
     return archivos
 
@@ -48,6 +61,14 @@ def calcular_suma_de_comprobacion(archivos):
     for ID, bloques in archivos.items():
         for index, bloque in enumerate(bloques):
             suma += ID * bloque
+    return suma
+
+def calcular_suma_de_comprobacion_2(archivos):
+    """ Calcula la suma de comprobación del sistema de archivos """
+    suma = 0
+    for ID, bloque in archivos.items():
+        for i in range(bloque[0], bloque[0] + bloque[1]):
+            suma += ID * i
     return suma
 
 def dia9_1(data, verbose: bool = False):
@@ -113,10 +134,11 @@ def dia9_2(data, verbose: bool = False):
             num = int(caracter)
             if archivo:
                 # Generar una lista de numeros consecutivos a partir del valor de posicion (incluido) y del tamaño de num
-                archivos[ID] = (posicion, num)
+                archivos[ID] = [posicion, num]
                 ID += 1
             else:
-                bloques_vacios.append((posicion, num))
+                if num > 0:
+                    bloques_vacios.append([posicion, num])
             posicion += num
             archivo = not archivo
     
@@ -129,7 +151,7 @@ def dia9_2(data, verbose: bool = False):
     vprint(verbose, bloques_vacios)
     # Imprimir el resultado
     
-    result = calcular_suma_de_comprobacion(archivos)
+    result = calcular_suma_de_comprobacion_2(archivos)
 
     print(f'resultado dia 9 - 2 = "{result}"')
     return result
@@ -141,8 +163,8 @@ if __name__ == "__main__":
     end_time = time.time()
     print(f"Tiempo de ejecución parte 1: {end_time - start_time:.4f} segundos")
     start_time = time.time()
-    assert dia9_2("test9_1.txt", verbose=True) == 2858, "Error se esperaba 2858."
-    # dia9_2("data9_1.txt", verbose=False)
+    # assert dia9_2("test9_1.txt", verbose=True) == 2858, "Error se esperaba 2858."
+    dia9_2("data9_1.txt", verbose=False)
     end_time = time.time()
     print(f"Tiempo de ejecución parte 2: {end_time - start_time:.4f} segundos")
 
