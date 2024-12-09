@@ -25,6 +25,23 @@ def reorganizar_archivos(archivos, bloques_vacios, verbose: bool = False):
         vprint(verbose, bloques_vacios)
     return archivos
 
+def reorganizar_archivos_2(archivos, bloques_vacios, verbose: bool = False):
+    """ Recorriendo la lista de archivos de último al primero, de ID mayor a ID menor, el ID 0 no se procesa,
+        Se busca el mayor hueco libre donde quepa"""
+    for ID in sorted(archivos.keys(), reverse=True):
+        if ID == 0:
+            continue
+        for hueco in bloques_vacios:
+            if archivos[ID][1] <= hueco[1]:
+                bloques_vacios.append(archivos[ID])
+                posicion = archivos[ID][0]
+                archivos[ID][0] = hueco[0]
+                if archivos[ID][1] < hueco[1]:
+                    bloques_vacios.append(hueco[0] + archivos[ID][1], hueco[1] - archivos[ID][1])
+        vprint(verbose, archivos)
+        vprint(verbose, bloques_vacios)
+    return archivos
+
 def calcular_suma_de_comprobacion(archivos):
     """ Calcula la suma de comprobación del sistema de archivos """
     suma = 0
@@ -85,15 +102,34 @@ def dia9_2(data, verbose: bool = False):
 
     # Leer el archivo
     with open(data_path, "r", encoding="utf-8") as file:
-        # Leer cada linea del archivo
-        result = 0
-        num_line = 1
-        jugadas = []
-        for line in file:
-            # Decodificar la linea
-            pass
+        # Procesar cada caracter del archivo
+        archivo = True
+        posicion = 0
+        ID = 0
+        archivos = {}
+        # la lista bloques vacios debe ser una cola FIFO
+        bloques_vacios = []
+        for caracter in file.read():
+            num = int(caracter)
+            if archivo:
+                # Generar una lista de numeros consecutivos a partir del valor de posicion (incluido) y del tamaño de num
+                archivos[ID] = (posicion, num)
+                ID += 1
+            else:
+                bloques_vacios.append((posicion, num))
+            posicion += num
+            archivo = not archivo
+    
+    vprint(verbose, archivos)
+    vprint(verbose, bloques_vacios)
 
+    archivos = reorganizar_archivos_2(archivos, bloques_vacios, verbose)
+
+    vprint(verbose, archivos)
+    vprint(verbose, bloques_vacios)
     # Imprimir el resultado
+    
+    result = calcular_suma_de_comprobacion(archivos)
 
     print(f'resultado dia 9 - 2 = "{result}"')
     return result
@@ -101,11 +137,11 @@ def dia9_2(data, verbose: bool = False):
 if __name__ == "__main__":
     start_time = time.time()
     # assert dia9_1("test9_1.txt", verbose=True) == 1928, "Error se esperaba 1928."
-    dia9_1("data9_1.txt", verbose=False)
+    # dia9_1("data9_1.txt", verbose=False)
     end_time = time.time()
     print(f"Tiempo de ejecución parte 1: {end_time - start_time:.4f} segundos")
     start_time = time.time()
-    # assert dia9_2("test9_1.txt", verbose=True) == 31, "Error se esperaba 9."
+    assert dia9_2("test9_1.txt", verbose=True) == 2858, "Error se esperaba 2858."
     # dia9_2("data9_1.txt", verbose=False)
     end_time = time.time()
     print(f"Tiempo de ejecución parte 2: {end_time - start_time:.4f} segundos")

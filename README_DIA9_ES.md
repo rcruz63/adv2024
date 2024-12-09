@@ -47,4 +47,21 @@ Compacta el disco duro del anfípodo usando el proceso que ha solicitado. ¿Cuá
 
 `6341711060162`
 
-## 
+## --- Parte Dos ---
+Al completar, dos cosas quedan inmediatamente claras. Primero, el disco definitivamente tiene mucho más espacio libre contiguo, justo como esperaba el anfípodo. Segundo, ¡la computadora está funcionando mucho más lento! ¿Quizás introducir toda esa fragmentación del sistema de archivos fue una mala idea?
+
+El ansioso anfípodo ya tiene un nuevo plan: en lugar de mover bloques individuales, le gustaría intentar compactar los archivos en su disco moviendo archivos completos.
+
+Esta vez, intenta mover archivos completos al tramo de bloques de espacio libre más a la izquierda que pueda contener el archivo. Intenta mover cada archivo exactamente una vez en orden decreciente de número ID de archivo, comenzando con el archivo que tiene el número ID más alto. Si no hay un tramo de espacio libre a la izquierda de un archivo que sea lo suficientemente grande para contenerlo, el archivo no se mueve.
+
+El primer ejemplo de arriba ahora procede de manera diferente:
+
+    00...111...2...333.44.5555.6666.777.888899
+    0099.111...2...333.44.5555.6666.777.8888..
+    0099.1117772...333.44.5555.6666.....8888..
+    0099.111777244.333....5555.6666.....8888..
+    00992111777.44.333....5555.6666.....8888..
+
+El proceso de actualización de la suma de comprobación del sistema de archivos es el mismo; ahora, la suma de comprobación de este ejemplo sería 2858.
+
+Empieza de nuevo, ahora compactando el disco duro del anfípodo usando este nuevo método. ¿Cuál es la suma de comprobación del sistema de archivos resultante?
