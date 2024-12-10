@@ -13,16 +13,22 @@ def dia10_1(data, verbose: bool = False):
     if verbose:
         print(f'Opening file {data_path}')
 
+    origenes = []
+
     # Leer el archivo
     with open(data_path, "r", encoding="utf-8") as file:
         # Leer cada linea del archivo
-        result = 0
-        for line in file:
-            # Decodificar la linea
-            pass
-            
-    # Imprimir el resultado
 
+        mapa = [list(int(line.strip())) for line in file]
+    
+    # obtenemos los origenes
+
+    for y, fila in enumerate(mapa):
+            for x, altura in enumerate(fila):
+                if altura == 0:
+                    origenes.append((x, y))
+    # Imprimir el resultado
+    result = 0
     print(f'resultado dia 10 - 1 = "{result}"')
     return result
 
@@ -52,7 +58,7 @@ def dia10_2(data, verbose: bool = False):
 
 if __name__ == "__main__":
     start_time = time.time()
-    assert dia10_1("test10_1.txt", verbose=True) == 11, "Error se esperaba 11."
+    assert dia10_1("test10_1.txt", verbose=True) == 36, "Error se esperaba 36."
     # dia10_1("data10_1.txt", verbose=False)
     end_time = time.time()
     print(f"Tiempo de ejecución parte 1: {end_time - start_time:.4f} segundos")
