@@ -40,7 +40,10 @@ cd $new_day
 
 # Para cada archivo .py, reemplazar todas las ocurrencias de 'X' en el contenido del archivo por el número obtenido
 for file in *.py; do
-    sed -i "s/X/${new_day_number}/g" "$file"
+    # Crear un archivo temporal
+    sed "s/X/${new_day_number}/g" "$file" > "${file}.tmp"
+    # Mover el archivo temporal sobre el original
+    mv "${file}.tmp" "$file"
 done
 
 cd ../..
