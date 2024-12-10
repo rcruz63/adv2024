@@ -5,6 +5,32 @@ def vprint(verbose, *args):
     if verbose:
         print(*args)
 
+def next_step(mapa, origen, max_x, max_y, verbose=False) -> int:
+    x, y = origen
+    altura = mapa[y][x]
+
+    vprint(verbose, f"altura: {altura} - (x, y): ({x}, {y})")
+
+    if altura == 9:
+        return 1
+
+    caminos = 0
+    # Norte    
+    if y > 0 and mapa[y - 1][x] == altura + 1:
+        caminos += next_step(mapa, (x, y - 1), max_x, max_y, verbose)
+    # Sur
+    if y < max_y - 1 and mapa[y + 1][x] == altura + 1:
+        caminos += next_step(mapa, (x, y + 1), max_x, max_y, verbose)
+    # Este
+    if x < max_x - 1 and mapa[y][x + 1] == altura + 1:
+        caminos += next_step(mapa, (x + 1, y), max_x, max_y, verbose)
+    # Oeste
+    if x > 0 and mapa[y][x - 1] == altura + 1:
+        caminos += next_step(mapa, (x - 1, y), max_x, max_y, verbose)
+    
+    vprint(verbose, caminos)
+    return caminos
+
 def dia10_1(data, verbose: bool = False):
     """ Función principal del día 10-1. """
 
@@ -13,22 +39,28 @@ def dia10_1(data, verbose: bool = False):
     if verbose:
         print(f'Opening file {data_path}')
 
-    origenes = []
+    rutas = []
 
     # Leer el archivo
     with open(data_path, "r", encoding="utf-8") as file:
         # Leer cada linea del archivo
+        mapa = [[int(c) for c in line.strip()] for line in file]
 
-        mapa = [list(int(line.strip())) for line in file]
-    
+    vprint(verbose, f"mapa: {mapa}")
     # obtenemos los origenes
 
     for y, fila in enumerate(mapa):
             for x, altura in enumerate(fila):
                 if altura == 0:
-                    origenes.append((x, y))
+                    rutas.append((x, y))
+
+    vprint(verbose, f"rutas: {rutas}")
     # Imprimir el resultado
     result = 0
+    max_x = len(mapa[0])
+    max_y = len(mapa)
+    for origen in rutas:
+        result += next_step(mapa, origen, max_x, max_y)
     print(f'resultado dia 10 - 1 = "{result}"')
     return result
 
