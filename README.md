@@ -15,6 +15,9 @@ Python Repo For the code of the game Advent of Code 2024
 8. [Dia 8](./docs/README_DIA8_ES.md)
 9. [Dia 9](./docs/README_DIA9_ES.md)
 10. [Dia 10](./docs/README_DIA10_ES.md)
+11. [Dia 11](./docs/README_DIA11_ES.md)
+12. [Dia 12](./docs/README_DIA12_ES.md)
+
 ## English
 
 1. [Day 1](./docs/README_DIA1_EN.md)
@@ -26,3 +29,6 @@ Python Repo For the code of the game Advent of Code 2024
 7. [Day 7](./docs/README_DIA7_EN.md)
 8. [Day 8](./docs/README_DIA8_EN.md)
 9. [Day 9](./docs/README_DIA9_EN.md)
+10. [Day 10](./docs/README_DIA10_EN.md)
+11. [Day 11](./docs/README_DIA11_EN.md)
+12. [Day 12](./docs/README_DIA12_EN.md)
