@@ -59,4 +59,4 @@ sed -i "/## English/!b;n;:a;n;/^[0-9]\+. \[Day [0-9]\+\](.\/docs\/README_DIA[0-9
 
 # Añadir y commitear los cambios
 git add .
-git commit -m "Añadidos archivos y enlaces para el día ${new_day_number}"
+git commit -m "feat(dia${new_day_number}): Añadidos archivos y enlaces para el día ${new_day_number}"
