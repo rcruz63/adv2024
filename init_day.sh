@@ -27,8 +27,8 @@ git checkout -b feature/dia${new_day_number}
 
 mkdir $new_day
 
-cp ../template/README_DIAX_ES.md ../README_DIA${new_day_number}_ES.md
-cp ../template/README_DIAX_EN.md ../README_DIA${new_day_number}_EN.md
+cp ../template/README_DIAX_ES.md ../docs/README_DIA${new_day_number}_ES.md
+cp ../template/README_DIAX_EN.md ../docs/README_DIA${new_day_number}_EN.md
 cp ../template/diaX/diaX.py $new_day/dia${new_day_number}.py
 cp ../template/diaX/dataX_1.txt $new_day/data${new_day_number}_1.txt
 cp ../template/diaX/dataX_2.txt $new_day/data${new_day_number}_2.txt
@@ -53,10 +53,10 @@ cd ../..
 # sed -i "/## English/a\\\n${new_day_number}. [Day ${new_day_number}](./README_DIA${new_day_number}_EN.md)" README.md
 
 # Modificar el fichero README.md - Tengo dudas con este nuevo codigo
-sed -i "/## Español/!b;n;:a;n;/^[0-9]\+. \[Dia [0-9]\+\](.\/README_DIA[0-9]\+_ES.md)/ba;i\\${new_day_number}. [Dia ${new_day_number}](./README_DIA${new_day_number}_ES.md)" README.md
-sed -i "/## English/!b;n;:a;n;/^[0-9]\+. \[Day [0-9]\+\](.\/README_DIA[0-9]\+_EN.md)/ba;i\\${new_day_number}. [Day ${new_day_number}](./README_DIA${new_day_number}_EN.md)" README.md
+sed -i "/## Español/!b;n;:a;n;/^[0-9]\+. \[Dia [0-9]\+\](.\/docs\/README_DIA[0-9]\+_ES.md)/ba;i\\${new_day_number}. [Dia ${new_day_number}](./docs/README_DIA${new_day_number}_ES.md)" README.md
+sed -i "/## English/!b;n;:a;n;/^[0-9]\+. \[Day [0-9]\+\](.\/docs\/README_DIA[0-9]\+_EN.md)/ba;i\\${new_day_number}. [Day ${new_day_number}](./docs/README_DIA${new_day_number}_EN.md)" README.md
 
 
 # Añadir y commitear los cambios
 git add .
-git commit -m "Añadidos archivos y enlaces para el día ${new_day_number}"
+git commit -m "feat(dia${new_day_number}): Añadidos archivos y enlaces para el día ${new_day_number}"
