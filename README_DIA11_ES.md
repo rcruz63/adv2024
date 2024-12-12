@@ -58,4 +58,4 @@ Considera el arreglo de piedras frente a ti. ¿Cuántas piedras tendrás despué
 --- Part Two ---
 Los Historadores están tomando mucho tiempo. Para ser justos, los corredores infinitos son muy grandes.
 
-¿Cuántas piedras tendrías después de parpadear un total de 75 veces?
+¿Cuántas piedras tendrías después de parpadear un total de 75 veces? `220357186726677`
